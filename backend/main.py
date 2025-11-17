@@ -70,17 +70,22 @@ async def health_check():
 
 
 if __name__ == "__main__":
+    import os
+    
+    port = int(os.getenv("PORT", 8000))
+    host = os.getenv("API_HOST", "0.0.0.0")
+    
     print("=" * 80)
     print("SME GROWTH PREDICTOR API")
     print("=" * 80)
-    print("\nStarting server...")
-    print("API Documentation: http://localhost:8000/docs")
-    print("Health Check: http://localhost:8000/health")
+    print(f"\nStarting server on {host}:{port}...")
+    print(f"API Documentation: http://localhost:{port}/docs")
+    print(f"Health Check: http://localhost:{port}/health")
     print("\n" + "=" * 80)
     
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
-        port=8000,
+        host=host,
+        port=port,
         reload=True
     )
