@@ -405,6 +405,31 @@ rm -rf node_modules package-lock.json
 npm install
 ```
 
+## 🚀 Deployment
+
+### Quick Deploy Options
+
+**Docker (Recommended):**
+```bash
+docker-compose up --build
+```
+
+**Cloud Platforms:**
+- **Backend**: Deploy to [Render](https://render.com) or [Railway](https://railway.app)
+- **Frontend**: Deploy to [Vercel](https://vercel.com) or [Netlify](https://netlify.com)
+
+### Detailed Deployment Guide
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for complete step-by-step instructions including:
+- 🐳 Docker deployment (local & cloud)
+- 🎨 Backend deployment on Render
+- ⚡ Frontend deployment on Vercel
+- 🔄 Alternative platforms (Railway, AWS, Netlify)
+- 🔐 Environment variable configuration
+- 🐛 Troubleshooting guide
+
+---
+
 ## 📄 License
 
 This project is for educational and demonstration purposes.
