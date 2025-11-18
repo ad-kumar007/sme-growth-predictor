@@ -156,18 +156,38 @@ def get_model() -> SMEGrowthPredictor:
     if _model_instance is None:
         import os
         
-        # Try environment variable first (for deployment)
-        model_path_env = os.getenv('MODEL_PATH')
+        # Try multiple possible paths
+        possible_paths = [
+            # Environment variable (highest priority)
+            os.getenv('MODEL_PATH'),
+            # Relative to this file (for local development)
+            str(Path(__file__).parent.parent.parent / "ml_model" / "sme_digitalization_model_final.pkl"),
+            # Absolute paths for Render
+            "/opt/render/project/src/ml_model/sme_digitalization_model_final.pkl",
+            # Current working directory
+            str(Path.cwd() / "ml_model" / "sme_digitalization_model_final.pkl"),
+            # Backend directory
+            str(Path.cwd() / "backend" / "ml_model" / "sme_digitalization_model_final.pkl"),
+        ]
         
-        if model_path_env:
-            model_path = Path(model_path_env)
-        else:
-            # Fallback to relative path (for local development)
-            model_path = Path(__file__).parent.parent.parent / "ml_model" / "sme_digitalization_model_final.pkl"
+        model_path = None
+        for path in possible_paths:
+            if path and Path(path).exists():
+                model_path = Path(path)
+                print(f"✓ Found model at: {model_path}")
+                break
         
-        # Verify the file exists
-        if not model_path.exists():
-            raise FileNotFoundError(f"Model file not found at {model_path}")
+        if model_path is None:
+            # Print debug info
+            cwd = Path.cwd()
+            print(f"Current working directory: {cwd}")
+            print(f"Files in cwd: {list(cwd.iterdir())[:10]}")
+            if (cwd / "ml_model").exists():
+                print(f"Files in ml_model: {list((cwd / 'ml_model').iterdir())}")
+            raise FileNotFoundError(
+                f"Model file not found. Tried paths:\n" + 
+                "\n".join(f"  - {p}" for p in possible_paths if p)
+            )
         
         _model_instance = SMEGrowthPredictor(str(model_path))
     return _model_instance
