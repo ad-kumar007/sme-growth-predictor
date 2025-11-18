@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from sklearn.base import BaseEstimator, TransformerMixin
+import sys
 
 
 class FeatureSelector(BaseEstimator, TransformerMixin):
@@ -20,6 +21,11 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         return X[:, self.indices]
+
+
+# Make FeatureSelector available in __main__ for pickle compatibility
+if '__main__' in sys.modules:
+    sys.modules['__main__'].FeatureSelector = FeatureSelector
 
 
 class SMEGrowthPredictor:
@@ -38,8 +44,17 @@ class SMEGrowthPredictor:
     def load_model(self):
         """Load the pickled model and extract components"""
         try:
+            # Create a custom unpickler that looks for FeatureSelector in this module
+            import io
+            
+            class CustomUnpickler(pickle.Unpickler):
+                def find_class(self, module, name):
+                    if name == 'FeatureSelector':
+                        return FeatureSelector
+                    return super().find_class(module, name)
+            
             with open(self.model_path, 'rb') as f:
-                self.model_package = pickle.load(f)
+                self.model_package = CustomUnpickler(f).load()
             
             self.pipeline = self.model_package['pipeline']
             
