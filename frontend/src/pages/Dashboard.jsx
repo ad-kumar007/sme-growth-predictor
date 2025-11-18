@@ -15,6 +15,8 @@ function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
+      setError(null);
+      
       const [statsData, historyData] = await Promise.all([
         getStatistics(),
         getPredictionHistory(20)
@@ -22,10 +24,17 @@ function Dashboard() {
       
       setStats(statsData.statistics);
       setHistory(historyData.predictions);
-      setError(null);
     } catch (err) {
-      setError('Failed to load dashboard data');
-      console.error(err);
+      console.error('Dashboard fetch error:', err);
+      
+      // More detailed error message
+      if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
+        setError('Cannot connect to backend server. The server may be starting up (takes ~30 seconds on first request). Please wait and click Retry.');
+      } else if (err.message?.includes('timeout')) {
+        setError('Request timed out. The backend server may be waking up. Please retry in a moment.');
+      } else {
+        setError(`Failed to load dashboard data: ${err.message || 'Unknown error'}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -53,14 +62,39 @@ function Dashboard() {
 
   if (error) {
     return (
-      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-        <p className="text-red-700">{error}</p>
-        <button
-          onClick={fetchDashboardData}
-          className="mt-2 text-red-600 hover:text-red-800 font-semibold"
-        >
-          Retry
-        </button>
+      <div className="max-w-2xl mx-auto mt-8">
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 sm:p-6 rounded-lg shadow-lg">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="ml-3 flex-1">
+              <h3 className="text-sm sm:text-base font-medium text-red-800">Connection Error</h3>
+              <p className="mt-2 text-xs sm:text-sm text-red-700">{error}</p>
+              <div className="mt-4 flex flex-col sm:flex-row gap-2">
+                <button
+                  onClick={fetchDashboardData}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold transition text-sm"
+                >
+                  🔄 Retry Now
+                </button>
+                <a
+                  href="https://sme-growth-predictor-1.onrender.com/health"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-semibold transition text-center text-sm"
+                >
+                  Check Backend Status
+                </a>
+              </div>
+              <div className="mt-4 text-xs text-red-600">
+                <p><strong>Tip:</strong> If this is the first request in a while, the backend server (Render free tier) needs ~30 seconds to wake up.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

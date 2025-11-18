@@ -65,7 +65,23 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "message": "API running"
+        "message": "SME Growth Predictor API is running",
+        "version": "1.0.0",
+        "endpoints": {
+            "predict": "/api/predict",
+            "model_info": "/api/model-info",
+            "dashboard": "/api/dashboard/stats",
+            "docs": "/docs"
+        }
+    }
+
+
+@app.get("/wake")
+async def wake_up():
+    """Wake up endpoint to prevent cold starts"""
+    return {
+        "status": "awake",
+        "message": "Server is ready"
     }
 
 
