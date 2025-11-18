@@ -7,12 +7,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import predict, dashboard
 import uvicorn
+import sys
+
+# Make FeatureSelector available globally for unpickling
+# This must be done before any model loading
 from sklearn.base import BaseEstimator, TransformerMixin
 
-
-# Define FeatureSelector class globally (required for unpickling)
 class FeatureSelector(BaseEstimator, TransformerMixin):
-    """Custom transformer for feature selection"""
+    """Custom transformer for feature selection (required for unpickling)"""
     def __init__(self, indices):
         self.indices = indices
     
@@ -21,6 +23,9 @@ class FeatureSelector(BaseEstimator, TransformerMixin):
     
     def transform(self, X):
         return X[:, self.indices]
+
+# Register FeatureSelector in __main__ module for pickle
+sys.modules['__main__'].FeatureSelector = FeatureSelector
 
 # Create FastAPI app
 app = FastAPI(
