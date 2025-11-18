@@ -79,17 +79,17 @@ function Dashboard() {
   ] : [];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-xl p-6">
-        <div className="flex justify-between items-center">
+      <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600 mt-2">Prediction analytics and history</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Prediction analytics and history</p>
           </div>
           <button
             onClick={fetchDashboardData}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm sm:text-base"
           >
             🔄 Refresh
           </button>
@@ -97,12 +97,12 @@ function Dashboard() {
       </div>
 
       {/* Statistics Cards */}
-      <div className="grid md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">Total Predictions</p>
-              <p className="text-3xl font-bold text-gray-900 mt-2">{stats?.total_predictions || 0}</p>
+              <p className="text-gray-500 text-xs sm:text-sm font-medium">Total Predictions</p>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">{stats?.total_predictions || 0}</p>
             </div>
             <div className="bg-blue-100 rounded-full p-3">
               <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,12 +112,12 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">High Growth</p>
-              <p className="text-3xl font-bold text-green-600 mt-2">{stats?.distribution?.High || 0}</p>
-              <p className="text-sm text-gray-500 mt-1">{(stats?.percentages?.High || 0).toFixed(1)}%</p>
+              <p className="text-gray-500 text-xs sm:text-sm font-medium">High Growth</p>
+              <p className="text-2xl sm:text-3xl font-bold text-green-600 mt-2">{stats?.distribution?.High || 0}</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">{(stats?.percentages?.High || 0).toFixed(1)}%</p>
             </div>
             <div className="bg-green-100 rounded-full p-3">
               <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,12 +127,12 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">Medium Growth</p>
+              <p className="text-gray-500 text-xs sm:text-sm font-medium">Medium Growth</p>
               <p className="text-3xl font-bold text-yellow-600 mt-2">{stats?.distribution?.Medium || 0}</p>
-              <p className="text-sm text-gray-500 mt-1">{(stats?.percentages?.Medium || 0).toFixed(1)}%</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">{(stats?.percentages?.Medium || 0).toFixed(1)}%</p>
             </div>
             <div className="bg-yellow-100 rounded-full p-3">
               <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,12 +142,12 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-500 text-sm font-medium">Low Growth</p>
+              <p className="text-gray-500 text-xs sm:text-sm font-medium">Low Growth</p>
               <p className="text-3xl font-bold text-red-600 mt-2">{stats?.distribution?.Low || 0}</p>
-              <p className="text-sm text-gray-500 mt-1">{(stats?.percentages?.Low || 0).toFixed(1)}%</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">{(stats?.percentages?.Low || 0).toFixed(1)}%</p>
             </div>
             <div className="bg-red-100 rounded-full p-3">
               <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -159,12 +159,12 @@ function Dashboard() {
       </div>
 
       {/* Charts */}
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Pie Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Distribution Overview</h2>
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Distribution</h2>
           {distributionData.length > 0 && distributionData.some(d => d.value > 0) ? (
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={distributionData}
@@ -191,10 +191,10 @@ function Dashboard() {
         </div>
 
         {/* Bar Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Percentage Breakdown</h2>
+        <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Percentage Breakdown</h2>
           {percentageData.length > 0 && percentageData.some(d => d.percentage > 0) ? (
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <BarChart data={percentageData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="category" />
@@ -216,30 +216,30 @@ function Dashboard() {
       </div>
 
       {/* Recent Predictions History */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Predictions</h2>
+      <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Recent Predictions</h2>
         {history.length > 0 ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prediction</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Confidence</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th className="hidden md:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prediction</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Confidence</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+                  <th className="hidden sm:table-cell px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
+                  <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {history.map((pred) => (
                   <tr key={pred.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{pred.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-900">#{pred.id}</td>
+                    <td className="hidden md:table-cell px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                       {new Date(pred.timestamp).toLocaleString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         pred.prediction === 'High' ? 'bg-green-100 text-green-800' :
                         pred.prediction === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -248,19 +248,19 @@ function Dashboard() {
                         {pred.prediction}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                       {(pred.confidence_scores[pred.prediction] * 100).toFixed(1)}%
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                       {pred.enterprise_size || 'N/A'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="hidden sm:table-cell px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-500">
                       {pred.enterprise_age || 'N/A'} yrs
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
                       <button
                         onClick={() => handleDownloadReport(pred.id)}
-                        className="text-blue-600 hover:text-blue-900 flex items-center"
+                        className="text-blue-600 hover:text-blue-800 font-medium flex items-center text-xs sm:text-sm"
                       >
                         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

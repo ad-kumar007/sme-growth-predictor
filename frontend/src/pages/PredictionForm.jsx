@@ -80,9 +80,9 @@ function PredictionForm() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">SME Growth Prediction</h1>
-        <p className="text-gray-600 mb-8">
+      <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 md:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">SME Growth Prediction</h1>
+        <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
           Fill in your enterprise details to predict the growth category
         </p>
 
@@ -101,7 +101,7 @@ function PredictionForm() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           {/* Enterprise Size */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -112,17 +112,17 @@ function PredictionForm() {
               value={formData['Small/Medium/Large']}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
             >
+              <option value="">Select Size</option>
               <option value="Small">Small</option>
               <option value="Medium">Medium</option>
               <option value="Large">Large</option>
             </select>
-            <p className="mt-1 text-sm text-gray-500">Select your enterprise size category</p>
           </div>
 
-          {/* Dynamic Form Fields */}
-          <div className="grid md:grid-cols-2 gap-6">
+          {/* Dynamic Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {formFields.map((field) => (
               <div key={field.name}>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -133,12 +133,14 @@ function PredictionForm() {
                   name={field.name}
                   value={formData[field.name]}
                   onChange={handleChange}
-                  step={field.step || '1'}
                   placeholder={field.placeholder}
+                  step={field.type === 'number' && field.name === 'Location' ? '0.1' : '1'}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                 />
-                <p className="mt-1 text-sm text-gray-500">{field.help}</p>
+                {field.help && (
+                  <p className="mt-1 text-xs text-gray-500">{field.help}</p>
+                )}
               </div>
             ))}
           </div>
