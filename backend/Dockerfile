@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create directory for ML model
+# Create directory for ML model (model should be mounted as volume)
 RUN mkdir -p /app/ml_model
 
 # Expose port
