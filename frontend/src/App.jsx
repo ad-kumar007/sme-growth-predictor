@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import PredictionForm from './pages/PredictionForm';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
+import Debug from './pages/Debug';
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -111,6 +112,7 @@ function App() {
             <Route path="/predict" element={<PredictionForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<About />} />
+            <Route path="/debug" element={<Debug />} />
           </Routes>
         </main>
 
