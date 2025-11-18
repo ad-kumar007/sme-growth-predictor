@@ -160,14 +160,15 @@ def get_model() -> SMEGrowthPredictor:
         possible_paths = [
             # Environment variable (highest priority)
             os.getenv('MODEL_PATH'),
+            # Inside backend folder (for Render deployment)
+            str(Path(__file__).parent.parent / "ml_model" / "sme_digitalization_model_final.pkl"),
             # Relative to this file (for local development)
             str(Path(__file__).parent.parent.parent / "ml_model" / "sme_digitalization_model_final.pkl"),
-            # Absolute paths for Render
-            "/opt/render/project/src/ml_model/sme_digitalization_model_final.pkl",
             # Current working directory
             str(Path.cwd() / "ml_model" / "sme_digitalization_model_final.pkl"),
-            # Backend directory
-            str(Path.cwd() / "backend" / "ml_model" / "sme_digitalization_model_final.pkl"),
+            # Absolute paths for Render
+            "/opt/render/project/src/ml_model/sme_digitalization_model_final.pkl",
+            "/app/ml_model/sme_digitalization_model_final.pkl",
         ]
         
         model_path = None
