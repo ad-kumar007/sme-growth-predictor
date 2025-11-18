@@ -154,6 +154,20 @@ def get_model() -> SMEGrowthPredictor:
     """Get or create the global model instance"""
     global _model_instance
     if _model_instance is None:
-        model_path = Path(__file__).parent.parent.parent / "ml_model" / "sme_digitalization_model_final.pkl"
+        import os
+        
+        # Try environment variable first (for deployment)
+        model_path_env = os.getenv('MODEL_PATH')
+        
+        if model_path_env:
+            model_path = Path(model_path_env)
+        else:
+            # Fallback to relative path (for local development)
+            model_path = Path(__file__).parent.parent.parent / "ml_model" / "sme_digitalization_model_final.pkl"
+        
+        # Verify the file exists
+        if not model_path.exists():
+            raise FileNotFoundError(f"Model file not found at {model_path}")
+        
         _model_instance = SMEGrowthPredictor(str(model_path))
     return _model_instance
